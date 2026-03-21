@@ -113,6 +113,7 @@ router.put('/update', authMiddleware as any, async (req: AuthRequest, res: Respo
  */
 router.get('/:id/verify', async (req: Request, res: Response) => {
     try {
+        console.log(`GET /users/${req.params.id}/verify - Request received to verify admin status`);
         const user = await User.findById(req.params.id);
         if (!user) {
             return res.status(404).json({ msg: 'User not found', isAdmin: false });
@@ -121,6 +122,31 @@ router.get('/:id/verify', async (req: Request, res: Response) => {
         res.json({ isAdmin });
     } catch (err: any) {
         console.error(err.message);
+        res.status(500).json({ msg: 'Server Error' });
+    }
+});
+
+router.get('/me/admin', authMiddleware as any, async (req: AuthRequest, res: Response) => {
+    try {
+        console.log('GET /users/me/admin - Checking admin status for user:', req.user?.id);
+        
+        // Check if user exists in token
+        if (!req.user) {
+            return res.status(401).json({ msg: 'Unauthorized', isAdmin: false });
+        }
+
+        // Extract role from decoded JWT (req.user is populated by authMiddleware)
+        const role = req.user.role;
+        const isAdmin = role === 'admin';
+
+        console.log(`GET /users/me/admin - User role: ${role}, isAdmin: ${isAdmin}`);
+        
+        res.json({ 
+            isAdmin,
+            role 
+        });
+    } catch (err: any) {
+        console.error('GET /users/me/admin - Error:', err.message);
         res.status(500).json({ msg: 'Server Error' });
     }
 });

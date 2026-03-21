@@ -57,7 +57,7 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 mongoose.connect(process.env.MONGO_URL || '', {
-    bufferCommands: false, // Disable buffering so we get errors immediately if not connected
+    bufferCommands: false,  
 })
     .then(() => console.log('MongoDB connected successfully to user_db'))
     .catch((err) => {
