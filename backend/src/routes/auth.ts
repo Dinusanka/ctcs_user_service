@@ -131,7 +131,7 @@ router.post('/login', async (req: Request, res: Response) => {
             { expiresIn: '1h' },
             (err, token) => {
                 if (err) throw err;
-                res.json({ token, role: user.role, id: user.id });
+                res.json({ token, role: user.role, id: user.id, uername: user.username });
             }
         );
     } catch (err: any) {
