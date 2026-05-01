@@ -1,5 +1,6 @@
 services:
   backend:
+    image: dinusankagayashan/user-service-backend:latest
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -14,6 +15,7 @@ services:
       - mongodb
 
   frontend:
+    image: dinusankagayashan/user-service-frontend:latest
     build:
       context: ./frontend
       dockerfile: Dockerfile
