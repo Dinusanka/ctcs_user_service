@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import swaggerJsDoc from 'swagger-jsdoc';
+import swaggerJsdoc from 'swagger-jsdoc';
 
-const swaggerOptions = {
+const swaggerOptions: swaggerJsdoc.Options = {
     swaggerDefinition: {
         openapi: '3.0.0',
         info: {
@@ -40,7 +40,7 @@ const swaggerOptions = {
     apis: [path.join(__dirname, '../src/routes/*.ts')],
 };
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
 const outputPath = path.join(__dirname, '../swagger.json');
 fs.writeFileSync(outputPath, JSON.stringify(swaggerDocs, null, 2));

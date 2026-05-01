@@ -20,8 +20,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --only=production
 
-# Copy compiled code from build stage
+# Copy compiled code and required assets from build stage
 COPY --from=build /app/dist ./dist
+COPY --from=build /app/swagger.json ./swagger.json
 
 # Expose the backend port
 EXPOSE 5000

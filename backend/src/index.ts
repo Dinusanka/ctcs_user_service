@@ -4,8 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/users';
-import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import * as swaggerDocument from '../swagger.json';
 
 dotenv.config();
 
@@ -15,46 +15,8 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const swaggerOptions = {
-    swaggerDefinition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'User Service API',
-            version: '1.0.0',
-            description: 'API for managing users and authentication',
-        },
-        servers: [
-            {
-                url: `http://localhost:${PORT}`,
-            },
-        ],
-        components: {
-            securitySchemes: {
-                bearerAuth: {
-                    type: 'http',
-                    scheme: 'bearer',
-                    bearerFormat: 'JWT',
-                },
-            },
-            schemas: {
-                User: {
-                    type: 'object',
-                    properties: {
-                        _id: { type: 'string' },
-                        username: { type: 'string' },
-                        email: { type: 'string' },
-                        role: { type: 'string', enum: ['user', 'admin'] },
-                        createdAt: { type: 'string', format: 'date-time' },
-                    },
-                },
-            },
-        },
-    },
-    apis: ['./src/routes/*.ts'],
-};
-
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+// Serve Swagger documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 mongoose.connect(process.env.MONGO_URL || '', {
     bufferCommands: false,  
