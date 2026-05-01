@@ -85,6 +85,6 @@ jobs:
             git remote add origin https://github.com/Dinusanka/ctcs_user_service.git || true
             git fetch
             git reset --hard origin/main
-            sudo docker rm -f project_frontend_1 project_backend_1 project_mongodb_1 || true
+            sudo docker rm -f $(sudo docker ps -aq) || true
             sudo docker-compose pull
             sudo docker-compose up -d
