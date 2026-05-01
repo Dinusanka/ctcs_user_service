@@ -71,8 +71,18 @@ jobs:
     needs: docker-build
     runs-on: ubuntu-latest
     steps:
-      - name: Cloud Deployment Placeholder
-        run: |
-          echo "Connecting to Cloud Provider..."
-          echo "Updating Container Service..."
-          # Example for AWS: aws ecs update-service --cluster my-cluster --service user-service --force-new-deployment
+      - name: Deploy to AWS EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd project
+            git init
+            git remote add origin https://github.com/Dinusanka/ctcs_user_service.git || true
+            git fetch
+            git reset --hard origin/main
+            sudo docker-compose pull
+            sudo docker-compose up -d
+            sudo docker-compose up -d
