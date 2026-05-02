@@ -72,7 +72,7 @@ function Login() {
                 </button>
             </form>
             <p className="mt-4">
-                Don't have an account? <Link to="/register" className="text-blue-500">Register</Link>
+                Don't have an account viva demo? <Link to="/register" className="text-blue-500">Register</Link>
             </p>
         </div>
     );
